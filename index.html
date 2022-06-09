@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
+    <link rel="stylesheet" href="assets/css/all.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Tic Tac Toe</title>
+  </head>
+  <body>
+    <header>
+      <a href="#"><h1>tic tak toe</h1></a>
+    </header>
+    <main>
+      <div class="players">
+        <div class="player player1">
+          <select name="playerType" id="playerType">
+            <option value="player" selected>player</option>
+            <option value="computer">computer</option>
+          </select>
+        </div>
+        <p class="vs">vs</p>
+        <div class="player player2">
+          <select name="playerType" id="playerType">
+            <option value="player" selected>player</option>
+            <option value="computer">computer</option>
+          </select>
+        </div>
+      </div>
+      <div class="game-board">
+        <button type="button" class="cell" id="cell-1">O</button>
+        <button type="button" class="cell" id="cell-2"></button>
+        <button type="button" class="cell" id="cell-3"></button>
+        <button type="button" class="cell" id="cell-4"></button>
+        <button type="button" class="cell" id="cell-5"></button>
+        <button type="button" class="cell" id="cell-6"></button>
+        <button type="button" class="cell" id="cell-7">X</button>
+        <button type="button" class="cell" id="cell-8"></button>
+        <button type="button" class="cell" id="cell-9"></button>
+      </div>
+    </main>
+    <footer>
+      <p>Made by:</p>
+      <a href="https://github.com/RobbeVanslambrouck">
+        <i class="fa-brands fa-github"></i> Robbe Vanslambrouck
+      </a>
+    </footer>
+  </body>
+</html>
