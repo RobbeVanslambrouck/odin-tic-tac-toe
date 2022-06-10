@@ -2,9 +2,6 @@ const game = (() => {
     let _board = [['', '', ''], ['', '', ''], ['', '', '']];
     let _players = [];
     let _turn = 0;
-    let _cellElements = document.querySelectorAll('.cell');
-    let _restartbuttons = document.querySelectorAll('.restart-btn');
-    let _playerNameInputs = document.querySelectorAll('.player-name');
 
     const _isGameWon = (row, col) => {
         return _checkRow(row) || _checkCow(col) || _checkDiagonal(row, col) 
@@ -47,7 +44,16 @@ const game = (() => {
         return _board[row][col] === '';
     }
 
-    const _updateGame = (row, col) => {
+    const _saveNames = () => {
+        localStorage.setItem('players', JSON.stringify([_players[0].name, _players[1].name]));
+    }
+
+    const setPlayerName = (id, name) => {
+        _players[id-1].name = name;
+        _saveNames();
+    }
+
+    const updateGame = (row, col) => {
         _board = _players[_turn].turn(row, col, _board);
         displayController.updateBoard(_board);
         if (_isGameWon(row, col)) {
@@ -59,57 +65,23 @@ const game = (() => {
         _turn = ++_turn % 2;
     }
 
-    const _handleCellClick = (e) => {
-        e.stopPropagation();
-        let cellNumber = e.target.id.charAt(5);
-        let row = Math.floor(cellNumber / 3);
-        let col = cellNumber % 3;
-        if( !_emptyCell(row, col)) {
-            return;
-        }
-        _updateGame(row, col);
-    };
-
-    const _handleRestartClick = (e) => {
-        e.stopPropagation();
-        restart();
-    }
-
-    const _handlePlayerNameChange = (e) => {
-        let playerId = e.target.id.charAt(11) - 1;
-        _players[playerId].name = e.target.value;
-        localStorage.setItem('players', JSON.stringify([_players[0].name, _players[1].name]));
-    };
-
     const init = () => {
-        _cellElements.forEach( cell => {
-            cell.addEventListener('click', _handleCellClick);
-        });
-
-        _restartbuttons.forEach( btn => {
-            btn.addEventListener('click', _handleRestartClick);
-        });
-
-        _playerNameInputs.forEach( input => {
-            input.addEventListener('keyup', _handlePlayerNameChange);
-        });
-        
+        inputHandler.init();
         let board = [['', '', ''], ['', '', ''], ['', '', '']];
-
         let player1 = Player('player1', 'X');
         let player2 = Player('player2', 'O');
-        let playerNames = JSON.parse(localStorage.getItem('players'));
-        if (playerNames === null) {
-            localStorage.setItem('players', JSON.stringify([player1.name, player2.name]));
-        } else {
-            player1.name = playerNames[0];
-            player2.name = playerNames[1];
-        }
 
-        document.querySelector('#name-player1').value = player1.name
-        document.querySelector('#name-player2').value = player2.name
+        let storedNames = JSON.parse(localStorage.getItem('players'));
+        if (storedNames != null) {
+            player1.name = storedNames[0];
+            player2.name = storedNames[1];
+        }
+        
         _players = [player1, player2];
+        _saveNames();
         _board = board;
+        displayController.updatePlayers(_players);
+        displayController.updateBoard(_board);
     };
 
     const restart = () => {
@@ -122,7 +94,9 @@ const game = (() => {
 
     return {
         init,
-        restart
+        restart,
+        updateGame,
+        setPlayerName
     }
 
 })();
@@ -142,20 +116,55 @@ const Player = (name, symbol) => {
     }
 }
 
-const gameboard = (() => {
-    let _board = [];
-    const getBoard = () => {return _board}
-});
+const inputHandler = (() => {
+
+    let _cellElements = document.querySelectorAll('.cell');
+    let _restartbuttons = document.querySelectorAll('.restart-btn');
+    let _playerNameInputs = document.querySelectorAll('.player-name');
+
+    const _handleCellClick = (e) => {
+        e.stopPropagation();
+        let row = e.target.className.replace(/\D/g, '')[0];
+        let col = e.target.className.replace(/\D/g, '')[1];
+        if( e.target.textContent != '') {
+            return;
+        }
+        game.updateGame(row, col);
+    };
+
+    const _handleRestartClick = (e) => {
+        e.stopPropagation();
+        game.restart();
+    }
+
+    const _handlePlayerNameChange = (e) => {
+        let playerId = e.target.id.replace(/\D/g, '');
+        game.setPlayerName(playerId, e.target.value);
+    };
+
+    const init = () => {
+        _cellElements.forEach( cell => {
+            cell.addEventListener('click', _handleCellClick);
+        });
+
+        _restartbuttons.forEach( btn => {
+            btn.addEventListener('click', _handleRestartClick);
+        });
+
+        _playerNameInputs.forEach( input => {
+            input.addEventListener('keyup', _handlePlayerNameChange);
+    });
+    }
+
+    return {
+        init
+    }
+
+})();
 
 const displayController = (() => {
-    let _boardElement = document.querySelector('.game-board');
     let _gameOverModal = document.querySelector('.modal.game-over');
     let _gameOverModalMsg = document.querySelector('.modal .msg');
-
-    const _changeCelltext = (cell, text) => {
-        let cellElement = document.querySelector(('#cell-' + cell));
-        cellElement.textContent = text;
-    };
 
     const updateBoard = (board) => {
         for (let i = 0; i < board.length; i++) {
@@ -164,6 +173,11 @@ const displayController = (() => {
                 cell.textContent = board[i][j];                
             }
         }
+    };
+
+    const updatePlayers = (players) => {
+        document.querySelector('#name-player1').value = players[0].name;
+        document.querySelector('#name-player2').value = players[1].name;
     };
 
     const showGameOverScreen = (msg = 'game has ended') => {
@@ -178,6 +192,7 @@ const displayController = (() => {
 
     return {
         updateBoard,
+        updatePlayers,
         showGameOverScreen,
         hideGameOverScreen
     };
