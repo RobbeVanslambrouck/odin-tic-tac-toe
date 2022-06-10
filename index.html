@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./script.js" defer></script>
     <link rel="stylesheet" href="styles/style.css" />
     <link rel="stylesheet" href="assets/css/all.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,29 +22,42 @@
     <main>
       <div class="players">
         <div class="player player1">
-          <select name="playerType" id="playerType">
-            <option value="player" selected>player</option>
-            <option value="computer">computer</option>
-          </select>
+          <input
+            type="text"
+            value="player1"
+            placeholder="player name"
+            id="name-player1"
+            class="player-name"
+          />
         </div>
         <p class="vs">vs</p>
         <div class="player player2">
-          <select name="playerType" id="playerType">
-            <option value="player" selected>player</option>
-            <option value="computer">computer</option>
-          </select>
+          <input
+            type="text"
+            value="player2"
+            placeholder="player name"
+            id="name-player2"
+            class="player-name"
+          />
         </div>
       </div>
       <div class="game-board">
-        <button type="button" class="cell" id="cell-1">O</button>
-        <button type="button" class="cell" id="cell-2"></button>
-        <button type="button" class="cell" id="cell-3"></button>
-        <button type="button" class="cell" id="cell-4"></button>
-        <button type="button" class="cell" id="cell-5"></button>
-        <button type="button" class="cell" id="cell-6"></button>
-        <button type="button" class="cell" id="cell-7">X</button>
-        <button type="button" class="cell" id="cell-8"></button>
-        <button type="button" class="cell" id="cell-9"></button>
+        <button type="button" class="cell row-0 col-0" id="cell-0"></button>
+        <button type="button" class="cell row-0 col-1" id="cell-1"></button>
+        <button type="button" class="cell row-0 col-2" id="cell-2"></button>
+        <button type="button" class="cell row-1 col-0" id="cell-3"></button>
+        <button type="button" class="cell row-1 col-1" id="cell-4"></button>
+        <button type="button" class="cell row-1 col-2" id="cell-5"></button>
+        <button type="button" class="cell row-2 col-0" id="cell-6"></button>
+        <button type="button" class="cell row-2 col-1" id="cell-7"></button>
+        <button type="button" class="cell row-2 col-2" id="cell-8"></button>
+      </div>
+      <div class="modal game-over hidden">
+        <div class="modal-card">
+          <p class="model-title">Game Over</p>
+          <p class="msg"></p>
+          <button type="button" class="restart-btn">restart</button>
+        </div>
       </div>
     </main>
     <footer>

@@ -4,6 +4,10 @@
     --cel-dimention: calc(min(100vw, (100vh - 10rem))/4);
 }
 
+.hidden {
+    display: none !important;
+}
+
 html {
     font-size: 62.5%;
     font-family: roboto, Arial, Helvetica, sans-serif;
@@ -49,11 +53,13 @@ main {
     font-weight: 200;
 }
 
-.player select {
+.player-name {
     font-size: min(2.5rem, 4vw);
     background-color: white;
     border: none;
+    max-width: 40vw;
     text-transform: capitalize;
+    text-align: center;
 }
 
 .game-board {
@@ -81,17 +87,54 @@ main {
     border-bottom: none;
 }
 
-#cell-1 {
+#cell-0 {
     border-radius: 1rem 0 0 0;
 }
-#cell-3 {
+#cell-2 {
     border-radius: 0 1rem 0 0;
 }
-#cell-9 {
+#cell-8 {
     border-radius: 0 0 1rem 0;
 }
-#cell-7 {
+#cell-6 {
     border-radius:  0 0 0 1rem;
+}
+
+.modal {
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-card {
+    color: white;
+    text-transform: capitalize;
+    text-align: center;
+    font-size: min(7rem, 14vw);
+}
+
+.modal-card .msg {
+    margin: 5rem;
+    font-size: min(5rem, 10vw);
+}
+
+.modal-card button {
+    border: none;
+    border-radius: 0.5rem;
+    font-size: min(5rem, 10vw);
+    background-color: #DE3018;
+    color: #fff;
+    font-weight: 600;
+    text-transform: capitalize;
+    padding: 1rem 2rem;
+    box-shadow: 0.5rem 0.5rem 1rem 0.3rem #000;
+    margin: 2rem;
 }
 
 footer {
@@ -125,7 +168,12 @@ footer a {
     }
 
     .cell:hover {
-        background-color: #02CEDE;
-        color: #DE3018;
+        background-color: #DE3018;
+        color: #fff;
+    }
+
+    .modal-card button:hover {
+        cursor: pointer;
+        transform: scale(1.1);
     }
 }
